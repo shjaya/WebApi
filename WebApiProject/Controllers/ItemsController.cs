@@ -22,32 +22,43 @@ namespace WebApiProject.Controllers
             return Ok(_itemStoreContext.Item.ToList());
         }
 
-        // GET: api/Items/5
-        [HttpGet("{id}")]
-        public IActionResult ItemsByName(int id)
+        // GET: api/Items/Office Chair
+        [HttpGet("{name}")]
+        public IActionResult ItemsByName(string name)
         {
             try
             {
-                var item = _itemStoreContext.Item
-                    .SingleOrDefault(b => b.Id == id);
-
-                var subCategory = _itemStoreContext.SubCategory.SingleOrDefault(b => b.Id == item.SubCategoryId);
-                var category = _itemStoreContext.Category.SingleOrDefault(b => b.Id == subCategory.CategoryId);
-
-                var displayItem = new DisplayItem
+                if(name == null)
                 {
-                    CategoryName = category.Name,
-                    SubCategoryName = subCategory.Name,
-                    ItemDescription = item.Description,
-                    ItemName = item.Name
-                };
-
-                if (displayItem == null)
-                {
-                    return NotFound(Constant.NotFound);
+                    return Ok(_itemStoreContext.Item.ToList());
                 }
+                if (name.Length < 3)
+                {
+                    return NotFound(Constant.MinLengthWarning);
+                }
+                else
+                {
+                    var item = _itemStoreContext.Item
+                        .SingleOrDefault(b => b.Name == name);
 
-                return Ok(displayItem);
+                    var subCategory = _itemStoreContext.SubCategory.SingleOrDefault(b => b.Id == item.SubCategoryId);
+                    var category = _itemStoreContext.Category.SingleOrDefault(b => b.Id == subCategory.CategoryId);
+
+                    var displayItem = new DisplayItem
+                    {
+                        CategoryName = category.Name,
+                        SubCategoryName = subCategory.Name,
+                        ItemDescription = item.Description,
+                        ItemName = item.Name
+                    };
+
+                    if (displayItem == null)
+                    {
+                        return NotFound(Constant.NotFound);
+                    }
+
+                    return Ok(displayItem);
+                }
             }
             catch(Exception ex)
             {

@@ -9,5 +9,7 @@ namespace WebApiProject
         public const string InValidData = "Item Data Not Saved in the Database. Exception thrown:";
 
         public const string NotFound = "Item not found.";
+
+        public const string MinLengthWarning = "Please enter 3 or more characters for Name Input";
     }
 }
