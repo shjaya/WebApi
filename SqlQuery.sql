@@ -1,62 +1,65 @@
-﻿CREATE DATABASE ItemsStore
- 
-GO 
- 
-USE  ItemsStore
- 
-GO 
- 
+﻿--DATABASE CREATION--
+CREATE DATABASE ItemsStore 
+GO  
+--CREATE TABLES QUERY --
+USE  ItemsStore 
+GO  
 CREATE TABLE Category 
   ( 
-     Id   BIGINT IDENTITY(1, 1) NOT NULL, 
+     Id   BIGINT IDENTITY(1,1) NOT NULL, 
      NAME NVARCHAR(50) NOT NULL, 
      PRIMARY KEY (Id) 
-  ) 
- 
+  )  
 GO 
- 
 CREATE TABLE SubCategory 
   ( 
-     Id      BIGINT NOT NULL, 
-     CategoryId BIGINT NULL, 
+     Id      BIGINT IDENTITY(1,1) NOT NULL, 
+     CategoryId BIGINT NOT NULL, 
      Name       NVARCHAR(100) NULL, 
      PRIMARY KEY (Id), 
      FOREIGN KEY (CategoryId) REFERENCES Category(Id) 
-  ) 
- 
-GO 
- 
+  )  
+GO  
 CREATE TABLE Item 
   ( 
-     Id   BIGINT NOT NULL, 
-	 SubCategoryId BIGINT NULL,
+     Id BIGINT IDENTITY(1,1)  NOT NULL, 
+	 SubCategoryId BIGINT NOT NULL,
      NAME NVARCHAR(50) NULL, 
      DESCRIPTION NVARCHAR(50) NULL, 
      PRIMARY KEY (Id),
 FOREIGN KEY (SubCategoryId) REFERENCES SubCategory(Id) 	 
-  ) 
- 
+  )  
 GO 
 
+--INSERT QUERY--
 Use ItemsStore
+
 Go
+
 INSERT INTO Item
 VALUES
-(1,1,'Sports Car','For Sports Purpose'),
-(2,2,'Regular Bike','For Daily Use'),
-(3,3,'Office Chair','Normal Chair'),
-(4,4,'Standing Desk','For Standing Work')
+(1,'Sports Car','For Sports Purpose'),
+(2,'Regular Bike','For Daily Use'),
+(3,'Office Chair','Normal Chair'),
+(4,'Standing Desk','For Standing Work'),
+(1,'Electric Car','Electric car'),
+(1,'Petrol Car','Petrol car'),
+(1,'Diesel Car','Diesel car'),
+(2,'Bike','For Daily Use'),
+(3,'Sitting Chair','Normal Chair'),
+(4,'table','For general use'),
+(4,'Rotating Desk','For Work')
  
  INSERT INTO SubCategory
 VALUES
-(1,1,'Car'),
-(2,1,'Bike'),
-(3,2,'Chair'),
-(4,2,'Desk')
+(1,'Car'),
+(1,'Bike'),
+(2,'Chair'),
+(2,'Desk')
  
 INSERT INTO Category
 VALUES
-(1,'Vehicle'),
-(2,'Office Items')
+('Vehicle'),
+('Office Items')
 
  
