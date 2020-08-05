@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebApiProject.Models;
+using WebApiProject.Repository;
+using WebApiProject.Service;
 
 namespace WebApiProject
 {
@@ -19,21 +21,15 @@ namespace WebApiProject
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddSwaggerGen(c => {
-                c.SwaggerDoc("v1", new Info
-                {
-                    Version = "v1",
-                    Title = "Item API",
-                    Description = "ASP.NET Core Web API"
-                });
-            });
-            services.AddSwaggerGenNewtonsoftSupport();
-
+        {            
+            services.AddSwaggerGen();
             services.AddDbContextPool<ItemsStoreContext>(options=>options.UseSqlServer(Configuration["ConnectionString:ItemsDB"]));
+            services.AddScoped<IRepository<Item>,ItemRepository>();
+            services.AddScoped<IRepository<Category>,CategoryRepository>();
+            services.AddScoped<IRepository<SubCategory>,SubCategoryRepository>();
+            services.AddScoped<IService,ItemService>();
             services.AddControllers();           
-            
-        }
+         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
